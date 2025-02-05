@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class TodolistConfig(AppConfig):
+class TodoApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'todolist'
+    name = 'todo_api'
