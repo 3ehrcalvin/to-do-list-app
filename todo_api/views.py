@@ -39,13 +39,13 @@ class TodoDetailApiView(APIView):
         data = {
             'note': request.data.get('note'),
             'due_date': request.data.get('due_date'),
-            'is_complete': False,
+            'is_complete': request.data.get('is_complete'),
             'user': request.user.id
         }
 
         serializer = TodoSerializer(todo_instance, data, partial=True)
 
-        if not serializer.is_valid():
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
