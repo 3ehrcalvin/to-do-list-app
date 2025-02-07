@@ -1,0 +1,35 @@
+<section class="flex flex-col gap-5">
+    <h1 class="text-3xl font-bold">Hi, Calvin</h1>
+    <form class="flex items-center justify-between gap-3" ng-submit="addNewList()">
+        <input type="text" placeholder="Enter new note here..." ng-model="newNote.note" class="outline-none rounded-md px-3 py-2 bg-white w-full">
+        <input type="date" ng-model="newNote.due_date" class="outline-none rounded-md px-3 py-2 bg-white w-full">
+        <button class="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center p-1 rounded-md">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+        </button>
+    </form>
+    <section class="flex flex-col gap-3">
+        <h2 class="text-lg">Here are tasks due today:</h2>
+        <section class="flex items-center w-full gap-3">
+            <div ng-repeat="list in todayList" class="flex justify-between bg-white rounded-md w-60 p-3">
+                <p>
+                    {{list.note}}
+                </p>
+                <div class="flex items-center gap-2">
+                    <button class="cursor-pointer flex items-center justify-center rounded-md bg-green-400 hover:bg-green-300 text-white">
+                        <span class="material-symbols-outlined">
+                            check
+                        </span>
+                    </button>
+                    <button class="cursor-pointer flex items-center justify-center rounded-md bg-red-400 hover:bg-red-300 text-white">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </section>
+</section>
