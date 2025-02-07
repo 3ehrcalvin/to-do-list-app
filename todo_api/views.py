@@ -17,8 +17,8 @@ class TodoDetailApiView(APIView):
         except Todo.DoesNotExist:
             return None
         
-    def get(self, request, todo_id, *args, **kwargs):
-        todo_instance = self.get_object(todo_id, request.user.id)
+    def get(self, request, *args, **kwargs):
+        todo_instance = self.get_object(kwargs['todo_id'], request.user.id)
         if not todo_instance:
             return Response(
                 {"res": "Record does not exist"},
@@ -28,8 +28,8 @@ class TodoDetailApiView(APIView):
         serializer = TodoSerializer(todo_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put(self, request, todo_id, *args, **kwargs):
-        todo_instance = self.get_object(todo_id, request.user.id)
+    def put(self, request, *args, **kwargs):
+        todo_instance = self.get_object(kwargs['todo_id'], request.user.id)
         if not todo_instance:
             return Response(
                 {"res": "Record does not exist"},
@@ -50,8 +50,8 @@ class TodoDetailApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, todo_id, *args, **kwargs):
-        todo_instance = self.get_object(todo_id, request.user.id)
+    def delete(self, request, *args, **kwargs):
+        todo_instance = self.get_object(kwargs['todo_id'], request.user.id)
         if not todo_instance:
             return Response(
                 {"res": "Record does not exist"},
