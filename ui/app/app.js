@@ -83,7 +83,12 @@ TodoApp.controller("AppController", ($scope, $location, $http) => {
                 location.reload()
             }
         }).catch((err) => {
-            alert("Failed to save new note")
+            alert(`
+                Failed to save new note
+                Message: ${
+                    (err.data.err_message.map((mes, key) => mes))
+                }
+            `)
         })
 
         $scope.newNote = {
