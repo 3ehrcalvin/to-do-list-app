@@ -55,8 +55,13 @@ TodoApp.controller("AppController", ($scope, $location, $http) => {
 
     $scope.todayList = []
 
+    // Getting todays list
     $http({
         method: "GET",
+        params: {
+            start_date: new Date().toISOString().split('T')[0],
+            end_date: new Date().toISOString().split('T')[0],
+        },
         ...HTTP_CONFIG
     }).then((res) => {
         $scope.todayList = res.data

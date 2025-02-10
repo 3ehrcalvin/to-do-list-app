@@ -68,8 +68,32 @@ class TodoDetailApiView(APIView):
 class TodoApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    def _get_filters(self, request) :
+        filter = {
+            'user': request.user.id
+        }
+
+        # Filter texts
+        if 'note' in request.query_params:
+            filter['note__icontains'] = request.query_parameter['note']
+
+        # Filter due_dates
+        if 'start_date' in request.query_params and 'end_date' in request.query_params:
+            filter['due_date__range'] = (request.query_params['start_date'], request.query_params['end_date'])
+        elif 'start_date' in request.query_params:
+            filter['due_date__gte'] = request.query_params['start_date']
+        elif 'end_date' in request.query_params:
+            filter['due_date__lte'] = request.query_params['end_date']
+
+        # Filter completed todos
+        if 'is_complete' in request.query_params:
+            filter['is_complete'] = request.query_params['is_complete']
+
+        return filter
+
     def get(self, request, *args, **kwargs):
-        data = Todo.objects.filter(user = request.user.id)
+        data_filters = self._get_filters(request)
+        data = Todo.objects.filter(**data_filters)
         serializer = TodoSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
