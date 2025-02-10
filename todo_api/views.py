@@ -37,9 +37,9 @@ class TodoDetailApiView(APIView):
             )
         
         data = {
-            'note': request.data.get('note'),
-            'due_date': request.data.get('due_date'),
-            'is_complete': request.data.get('is_complete'),
+            'note': request.data.get('note') or todo_instance.note,
+            'due_date': request.data.get('due_date') or todo_instance.due_date,
+            'is_complete': request.data.get('is_complete') or todo_instance.is_complete,
             'user': request.user.id
         }
 

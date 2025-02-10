@@ -13,16 +13,16 @@
         <h2 class="text-lg">Here are tasks due today:</h2>
         <section class="flex items-center w-full gap-3">
             <div ng-repeat="list in todayList" class="flex justify-between bg-white rounded-md w-60 p-3">
-                <p>
+                <p ng-class="{'line-through': list.is_complete}">
                     {{list.note}}
                 </p>
                 <div class="flex items-center gap-2">
-                    <button class="cursor-pointer flex items-center justify-center rounded-md bg-green-400 hover:bg-green-300 text-white">
+                    <button ng-show="!list.is_complete" ng-click="finishNote(list.id)" class="cursor-pointer flex items-center justify-center rounded-md bg-green-400 hover:bg-green-300 text-white">
                         <span class="material-symbols-outlined">
                             check
                         </span>
                     </button>
-                    <button class="cursor-pointer flex items-center justify-center rounded-md bg-red-400 hover:bg-red-300 text-white">
+                    <button ng-click="deleteNote(list.id)" class="cursor-pointer flex items-center justify-center rounded-md bg-red-400 hover:bg-red-300 text-white">
                         <span class="material-symbols-outlined">
                             delete
                         </span>

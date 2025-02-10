@@ -48,6 +48,11 @@ TodoApp.controller("AppController", ($scope, $location, $http) => {
     $scope.currentLocationPath = $location.path()
     $scope.navList = navList
 
+    $scope.newNote = {
+        note: "",
+        due_date: ""
+    }
+
     $scope.todayList = []
 
     $http({
@@ -59,22 +64,59 @@ TodoApp.controller("AppController", ($scope, $location, $http) => {
 
     $scope.addNewList = () => {
         HTTP_CONFIG.headers["Content-Type"] = "application/json"
+        const due_date = $scope.newNote.due_date.toISOString().split('T')[0]
 
         $http({
             method: "POST",
             data: {
                 note: $scope.newNote.note,
-                due_date: $scope.newNote.due_date,
+                due_date: due_date,
             },
             ...HTTP_CONFIG
         }).then((res) => {
-            
+            if(res.status == 200) {
+                location.reload()
+            }
+        }).catch((err) => {
+            alert("Failed to save new note")
         })
 
         $scope.newNote = {
             note: "",
             due_date: ""
         }
+    }
+
+    $scope.finishNote = (id) => {
+        HTTP_CONFIG.url = HTTP_CONFIG.url + `/${id}`
+        $http({
+            method: "PUT",
+            data: {
+                is_complete: true,
+            },
+            ...HTTP_CONFIG
+        }).then((res) => {
+            if(res.status == 200) {
+                alert("Data successfully updated")
+                location.reload()
+            }
+        }).catch((err) => {
+            alert("Data failed to update")
+        })
+    }
+
+    $scope.deleteNote = (id) => {
+        HTTP_CONFIG.url = HTTP_CONFIG.url + `/${id}`
+        $http({
+            method: "DELETE",
+            ...HTTP_CONFIG
+        }).then((res) => {
+            if(res.status == 200) {
+                alert("Data has been deleted")
+            } 
+        }).catch((err) => {
+            alert("Data delete failed")
+        })
     }
 
     $scope.$on("$routeChangeSuccess", () => {
